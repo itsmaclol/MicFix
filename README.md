@@ -1,13 +1,13 @@
 # MicFix
-## A bash script which helps you to enable applications to microphone on macOS Ventura
+### A bash script which helps you to enable applications to microphone on macOS Ventura
 
 # Installation 
 
-Just run the following in your terminal:
+### Just run the following in your terminal:
 
 `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/itsmaclol/MicFix/main/micfix.sh)"`
 
-# Running the script localy 
+# Running the script locally 
 ```
 git clone https://github.com/itsmaclol/MicFix.git && cd MicFix
 chmod +x ./micfix.sh
