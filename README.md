@@ -1,4 +1,7 @@
 # MicFix
+
+### This project is hereby licensed under the MIT License. You can view it [here](https://github.com/itsmaclol/MicFix/main/LICENSE)
+
 ### A bash script which helps you to enable applications to microphone on macOS Ventura
 
 # Installation 
