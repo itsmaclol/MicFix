@@ -13,5 +13,8 @@ git clone https://github.com/itsmaclol/MicFix.git && cd MicFix
 chmod +x ./micfix.sh
 ./micfix.sh
 ```
+# Usage
+Use --reset to reset your microphone settings
+Use no arguments to just run the script
 
 Made with <3 by Mac
