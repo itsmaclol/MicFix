@@ -24,6 +24,8 @@ fi
 
 echo "Please enter the name of the app for which you want to enable microphone for."
 
+echo "Please note that some apps (ex zoom.us) have a . in the name, please type the entire app name for this script to work."
+
 read -p "App Name: " appName
 
 # Find the app in /Applications folder
