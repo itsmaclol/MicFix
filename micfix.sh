@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
 if [ "$(id -u)" -ne 0 ]; then echo "Please run as root." >&2; exit 1; fi
-get_macos_version() {
-    macos_version=$(uname -r)
-    echo "$macos_version"
-}
-macos_version=$(get_macos_version)
 
-if [[ $1 == "--reset" ]]; then
-    if [[ "$macos_version" < "20.0.0" ]]; then
-        echo "This script requires macOS Big sur and higher"
-        exit
-    else
-        tccutil reset Microphone
-        exit
-    fi
-elif [[ $1 == "" ]]; then
-    echo ""
-else
-    echo "Command Not Found."
-    exit
+macos_version=$(sw_vers -productVersion)
+macos_version_major=${macos_version%%.*}
+if [[ "$macos_version_major" -lt 11 ]]; then
+    echo "ERROR: This script requires macOS Big Sur or newer." >&2
+    exit 1
 fi
+
+case "$1" in
+    --reset | -r )
+        tccutil reset Microphone
+        ;;
+    "" )
+        echo ""
+        ;;
+    * )
+        echo "Command Not Found"
+        exit 1
+        ;;
+esac
+
 
 
 echo "Please enter the name of the app for which you want to enable microphone for."
@@ -55,11 +56,6 @@ if [[ -z "$AppBundleURLname" ]]; then
     exit 1
 fi
 
-# Check macOS version
-if [[ "$macos_version" < "20.0.0" ]]; then
-    echo "Error: This script requires macOS Big Sur or later."
-    exit 1
-fi
 
 # Create a backup of TCC.db
 cp ~/Library/Application\ Support/com.apple.TCC/TCC.db ~/TCC.db.bak
