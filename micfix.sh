@@ -1,6 +1,37 @@
 #!/usr/bin/env bash
-if [ "$(id -u)" -ne 0 ]; then echo "Please run as root." >&2; exit 1; fi
+
+# Thanks to palera1n install.sh for these colours
+
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+DARK_GRAY='\033[90m'
+LIGHT_CYAN='\033[0;96m'
+NO_COLOR='\033[0m'
+
+error() {
+    echo -e " - [${DARK_GRAY}$(date +'%m/%d/%y %H:%M:%S')${NO_COLOR}] ${RED}<Error>${NO_COLOR}: ${RED}$1${NO_COLOR}"
+}
+
+info() {
+    echo -e " - [${DARK_GRAY}$(date +'%m/%d/%y %H:%M:%S')${NO_COLOR}] ${LIGHT_CYAN}<Info>${NO_COLOR}: ${LIGHT_CYAN}$1${NO_COLOR}"
+}
+
+warning() {
+    echo -e " - [${DARK_GRAY}$(date +'%m/%d/%y %H:%M:%S')${NO_COLOR}] ${YELLOW}<Warning>${NO_COLOR}: ${YELLOW}$1${NO_COLOR}"
+}
+
+clear
+
+echo "# == MicFix script =="
+echo "#"
+echo "# Made by Mac"
+echo "#"
+echo ''
+
+if [ "$(id -u)" -ne 0 ]; then warning "This script will not run without root or sudo." >&2; exit 1; fi
+
 advanced_called=False
+
 function finish_code {
     # Find the app in /Applications folder
     if [[ $advanced_called = False ]]; then
@@ -54,27 +85,11 @@ EOF
 
     info "Please be sure to restart the app and system settings for mic access to work properly."
 
-exit 1
+    exit 1
 }
 
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-DARK_GRAY='\033[90m'
-LIGHT_CYAN='\033[0;96m'
-NO_COLOR='\033[0m'
 
-# Thanks to palera1n install.sh for these colours
-error() {
-    echo -e " - [${DARK_GRAY}$(date +'%m/%d/%y %H:%M:%S')${NO_COLOR}] ${RED}<Error>${NO_COLOR}: ${RED}$1${NO_COLOR}"
-}
 
-info() {
-    echo -e " - [${DARK_GRAY}$(date +'%m/%d/%y %H:%M:%S')${NO_COLOR}] ${LIGHT_CYAN}<Info>${NO_COLOR}: ${LIGHT_CYAN}$1${NO_COLOR}"
-}
-
-warning() {
-    echo -e " - [${DARK_GRAY}$(date +'%m/%d/%y %H:%M:%S')${NO_COLOR}] ${YELLOW}<Warning>${NO_COLOR}: ${YELLOW}$1${NO_COLOR}"
-}
 
 macos_version=$(sw_vers -productVersion)
 macos_version_major=${macos_version%%.*}
