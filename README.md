@@ -19,6 +19,8 @@ chmod +x ./micfix.sh
 # Usage
 Use --reset to reset your microphone settings
 
+Use --advanced to put in a custom AppBundleURLname
+
 Use no arguments to just run the script
 
 Made with <3 by Mac
