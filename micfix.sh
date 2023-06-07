@@ -22,55 +22,54 @@ warning() {
 
 clear
 
+# is it clear that i made the script?
+
 echo "# == MicFix script =="
 echo "#"
 echo "# Made by Mac"
 echo "#"
 echo ''
 
-if [ "$(id -u)" -ne 0 ]; then warning "This script will not run without root or sudo." >&2; exit 1; fi
+
+# Check for root access
+if [ "$(id -u)" -ne 0 ]; then error "This script will not run without root or sudo." >&2; exit 1; fi
 
 advanced_called=False
 
 function finish_code {
-    # Find the app in /Applications folder
-    if [[ $advanced_called = False ]]; then
-        appPath="/Applications/$appName.app"
-    fi
+    case $advanced_called in
+        False )
+            # Find the app in /Applications folder
+            appPath="/Applications/$appName.app"
+            
+            # Check if the app exists
+            if [[ ! -d "$appPath" ]]; then
+                error "App not found in /Applications folder."
+                exit 1
+            fi
 
-    # Check if the app exists
-    if [[ $advanced_called = False ]]; then
-        if [[ ! -d "$appPath" ]]; then
-            error "App not found in /Applications folder."
-            exit 1
-        fi
-    fi
+            # Path to info.plist
+            infoPlistPath="$appPath/Contents/Info.plist"
 
-    # Path to info.plist
-    if [[ $advanced_called = False ]]; then
-        infoPlistPath="$appPath/Contents/Info.plist"
-    fi
+            # Validate the info.plist file
+            if [[ ! -f "$infoPlistPath" ]]; then
+                error "info.plist file not found for the specified app."
+                exit 1
+            fi
 
-    # Validate the info.plist file
-    if [[ $advanced_called = False ]]; then
-        if [[ ! -f "$infoPlistPath" ]]; then
-            error "info.plist file not found for the specified app."
-            exit 1
-        fi
-    fi
+            # Retrieve AppBundleURLname from info.plist
+            AppBundleURLname=$(defaults read "$infoPlistPath" CFBundleIdentifier)
 
-    # Retrieve AppBundleURLname from info.plist
-    if [[ $advanced_called = False ]]; then
-        AppBundleURLname=$(defaults read "$infoPlistPath" CFBundleIdentifier)
-    fi
-
-    # Validate the AppBundleURLname
-    if [[ $advanced_called = False ]]; then
-        if [[ -z "$AppBundleURLname" ]]; then
-            error "Failed to retrieve AppBundleURLname from Info.Plist file."
-            exit 1
-        fi
-    fi
+            # Validate the AppBundleURLname
+            if [[ -z "$AppBundleURLname" ]]; then
+                error "Failed to retrieve AppBundleURLname from Info.Plist file."
+                exit 1
+            fi
+            ;;
+        True )
+            echo ""
+            ;;
+        esac
 
     # Create a backup of TCC.db
     cp ~/Library/Application\ Support/com.apple.TCC/TCC.db ~/TCC.db.bak
