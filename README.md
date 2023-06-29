@@ -6,6 +6,9 @@
 
 # Installation 
 
+## WARNING
+### Only use if you have issues with enabling microphone natively
+
 ### Just run the following in your terminal:
 
 `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/itsmaclol/MicFix/main/micfix.sh)"`
